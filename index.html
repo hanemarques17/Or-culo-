@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Oráculo</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(120,140,80,.15), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(201,170,98,.10), transparent 25%),
+        #0d120d;
+    color: #f4eedf;
+    font-family: Georgia, "Times New Roman", serif;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "✦    ☾    ✧       ✦       ✧    ☽    ✦";
+    position: fixed;
+    top: 25px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: rgba(201,170,98,.25);
+    font-size: 22px;
+    letter-spacing: 8px;
+    pointer-events: none;
+}
+
+.container {
+    width: min(700px, 92%);
+    margin: auto;
+    padding: 45px 0 50px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.moon {
+    font-size: 55px;
+    color: #c9aa62;
+    margin-bottom: 5px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 38px;
+    letter-spacing: 8px;
+    color: #c9aa62;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    margin-top: 10px;
+    color: #aaa995;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.stars {
+    color: #c9aa62;
+    margin-top: 12px;
+    letter-spacing: 12px;
+}
+
+.form-box {
+    background: rgba(25,32,22,.92);
+    border: 1px solid #505b3e;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 10px 35px rgba(0,0,0,.3);
+}
+
+label {
+    display: block;
+    color: #bdb9a7;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 11px;
+    border: 1px solid #596448;
+    background: #0c110c;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 15px;
+}
+
+input:focus {
+    border-color: #c9aa62;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #dfc47b;
+    background: #66704a;
+    color: #fff9e8;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 2px;
+}
+
+button:hover {
+    background: #77815a;
+}
+
+.error {
+    color: #d9ad8b;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.results {
+    display: none;
+    margin-top: 22px;
+    gap: 14px;
+}
+
+.card {
+    background: linear-gradient(145deg,#1b2418,#11160f);
+    border: 1px solid #4b553b;
+    border-radius: 17px;
+    padding: 19px;
+    animation: aparecer .6s ease;
+}
+
+.card h2 {
+    color: #c9aa62;
+    font-size: 19px;
+    margin: 0 0 11px;
+}
+
+.card p {
+    font-family: Arial, sans-serif;
+    color: #f1eddf;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.number {
+    text-align: center;
+    font-size: 52px;
+    color: #c9aa62;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.number-text {
+    text-align: center;
+    color: #aaa995;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+}
+
+.word {
+    text-align: center;
+    font-size: 31px;
+    color: #c9aa62;
+    letter-spacing: 4px;
+    margin: 5px 0 10px;
+}
+
+.word-text {
+    text-align: center;
+}
+
+.footer {
+    text-align: center;
+    color: #777b6c;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin-top: 18px;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media(max-width:600px) {
+    h1 {
+        font-size: 30px;
+        letter-spacing: 5px;
+    }
+
+    .container {
+        padding-top: 35px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div class="moon">☾</div>
+
+        <h1>Oráculo</h1>
+
+        <div class="stars">
+            ✦ ✧ ✦
+        </div>
+
+        <div class="subtitle">
+            Uma pequena revelação para você
+        </div>
+
+    </div>
+
+
+    <div class="form-box">
+
+        <label for="nome">
+            Seu nome
+        </label>
+
+        <input
+            id="nome"
+            type="text"
+            placeholder="Ex.: Hanelle"
+            maxlength="40"
+        >
+
+
+        <label for="data">
+            Data de nascimento
+        </label>
+
+        <input
+            id="data"
+            type="text"
+            placeholder="17/08/1999"
+            maxlength="10"
+            inputmode="numeric"
+        >
+
+
+        <button id="revelar">
+            REVELAR ✨
+        </button>
+
+        <div class="error" id="erro"></div>
+
+    </div>
+
+
+    <div class="results" id="resultados"></div>
+
+
+    <div class="footer">
+        ✦ Uma nova revelação a cada consulta ✦
+    </div>
+
+</div>
+
+
+<script>
+
+const nome = document.getElementById("nome");
+const data = document.getElementById("data");
+const botao = document.getElementById("revelar");
+const resultados = document.getElementById("resultados");
+const erro = document.getElementById("erro");
+
+
+/* Formatação da data */
+
+data.addEventListener("input", function() {
+
+    let valor = data.value.replace(/\D/g, "");
+
+    if (valor.length > 8) {
+        valor = valor.substring(0,8);
+    }
+
+    if (valor.length > 4) {
+        valor =
+            valor.substring(0,2) +
+            "/" +
+            valor.substring(2,4) +
+            "/" +
+            valor.substring(4);
+
+    } else if (valor.length > 2) {
+
+        valor =
+            valor.substring(0,2) +
+            "/" +
+            valor.substring(2);
+    }
+
+    data.value = valor;
+
+});
+
+
+/* Mensagens */
+
+const revelacoes = [
+
+"Hoje pode ser um bom momento para confiar mais naquilo que você percebe, mesmo quando ainda não consegue explicar tudo.",
+
+"Uma mudança pode estar se formando aos poucos. Não tenha pressa para entender tudo de uma vez.",
+
+"Você pode descobrir que uma oportunidade simples merece mais atenção do que parecia inicialmente.",
+
+"Há algo que você vem adiando por insegurança. Talvez seja hora de dar um pequeno primeiro passo.",
+
+"Seu momento pede equilíbrio entre aquilo que você deseja e aquilo que realmente precisa.",
+
+"Uma situação que parecia parada pode começar a se movimentar quando você mudar a forma de olhar para ela.",
+
+"Você tem mais influência sobre uma situação do que imagina, principalmente quando escolhe agir com calma.",
+
+"Algo que você aprendeu no passado pode ajudar você a lidar melhor com uma nova fase.",
+
+"Uma conversa aparentemente simples pode trazer uma percepção importante para você.",
+
+"Nem tudo precisa acontecer imediatamente. Algumas coisas precisam primeiro encontrar o momento certo.",
+
+"Você pode estar mais perto de uma resposta do que imagina. Preste atenção aos pequenos sinais ao seu redor.",
+
+"Existe uma possibilidade que merece ser observada com mais carinho antes de ser descartada."
+];
+
+
+const observacoes = [
+
+"Observe mais as pessoas ao seu redor. Nem tudo precisa ser dito para ser percebido.",
+
+"Observe o que as pessoas estão falando. Aprender a ouvir pode revelar mais do que você imagina.",
+
+"Observe aquilo que está se repetindo. Pode existir um padrão pedindo sua atenção.",
+
+"Observe as pequenas oportunidades. Nem toda mudança chega fazendo barulho.",
+
+"Observe suas próprias reações antes de responder. Elas podem revelar o que realmente importa para você.",
+
+"Observe quem demonstra presença nos pequenos momentos. Atitudes podem falar mais do que palavras.",
+
+"Observe onde você coloca sua energia. Nem tudo merece a sua atenção.",
+
+"Observe aquilo que você vem evitando. Talvez exista uma resposta justamente nesse ponto.",
+
+"Observe as pessoas que aparecem quando você menos espera. Uma conversa pode ser mais importante do que parece.",
+
+"Observe sua primeira reação diante de uma situação nova. Sua intuição pode estar tentando chamar sua atenção."
+
+];
+
+
+const palavras = [
+
+["CORAGEM","Você pode estar mais preparada para dar um passo do que imagina."],
+
+["RENOVAÇÃO","Uma fase diferente pode começar quando você permitir que algumas coisas mudem."],
+
+["OPORTUNIDADE","Algo pequeno pode abrir espaço para algo maior."],
+
+["EQUILÍBRIO","Nem tudo precisa ser resolvido hoje. Encontre seu centro antes de decidir."],
+
+["INTUIÇÃO","Preste atenção naquela percepção que aparece antes mesmo das explicações."],
+
+["MOVIMENTO","O momento pede menos espera e mais disposição para experimentar."],
+
+["DESAPEGO","Algumas coisas precisam perder espaço para que outras possam crescer."],
+
+["PROSPERIDADE","Valorize aquilo que você já está construindo e perceba onde pode crescer."],
+
+["CONFIANÇA","Nem sempre você precisa ter todas as respostas antes de continuar."],
+
+["TRANSFORMAÇÃO","Algumas mudanças começam silenciosamente antes de aparecerem por fora."]
+
+];
+
+
+/* Criador de número baseado nos dados */
+
+function criarNumero(texto) {
+
+    let numero = 0;
+
+    for (let i = 0; i < texto.length; i++) {
+
+        numero =
+            ((numero << 5) - numero) +
+            texto.charCodeAt(i);
+
+        numero |= 0;
+    }
+
+    return Math.abs(numero);
+}
+
+
+/* Revelação */
+
+botao.addEventListener("click", function() {
+
+    erro.textContent = "";
+
+    const nomeDigitado = nome.value.trim();
+    const dataDigitada = data.value.trim();
+
+    if (!nomeDigitado) {
+
+        erro.textContent =
+            "Digite o nome da pessoa.";
+
+        nome.focus();
+
+        return;
+    }
+
+
+    const partes =
+        dataDigitada.split("/");
+
+
+    if (
+        partes.length !== 3 ||
+        partes[0].length !== 2 ||
+        partes[1].length !== 2 ||
+        partes[2].length !== 4
+    ) {
+
+        erro.textContent =
+            "Digite a data no formato DD/MM/AAAA.";
+
+        data.focus();
+
+        return;
+    }
+
+
+    const dia = Number(partes[0]);
+    const mes = Number(partes[1]);
+    const ano = Number(partes[2]);
+
+
+    const nascimento =
+        new Date(ano, mes - 1, dia);
+
+
+    if (
+        nascimento.getDate() !== dia ||
+        nascimento.getMonth() !== mes - 1 ||
+        nascimento.getFullYear() !== ano
+    ) {
+
+        erro.textContent =
+            "Confira a data de nascimento.";
+
+        return;
+    }
+
+
+    /*
+       Misturamos nome + data para que
+       pessoas diferentes tenham resultados diferentes.
+    */
+
+    const base =
+        nomeDigitado.toLowerCase() +
+        dataDigitada;
+
+
+    const numeroBase =
+        criarNumero(base);
+
+
+    const revelacao =
+        revelacoes[
+            numeroBase % revelacoes.length
+        ];
+
+
+    const observacao =
+        observacoes[
+            Math.floor(numeroBase / 7) %
+            observacoes.length
+        ];
+
+
+    const palavra =
+        palavras[
+            Math.floor(numeroBase / 13) %
+            palavras.length
+        ];
+
+
+    /*
+       Número da sorte:
+       sempre entre 1 e 99.
+       O número muda a cada revelação.
+    */
+
+    const numeroSorte =
+        Math.floor(Math.random() * 99) + 1;
+
+
+    resultados.innerHTML = `
+
+        <div class="card">
+
+            <h2>
+                🔮 O que seu dia revela
+            </h2>
+
+            <p>
+                ${revelacao}
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>
+                🍀 Seu número da sorte
+            </h2>
+
+            <div class="number">
+                ${numeroSorte}
+            </div>
+
+            <div class="number-text">
+                Um número especial para acompanhar seu dia.
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>
+                👁️ O que você precisa observar
+            </h2>
+
+            <p>
+                ${observacao}
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>
+                💫 Uma palavra para você
+            </h2>
+
+            <div class="word">
+                ${palavra[0]}
+            </div>
+
+            <p class="word-text">
+                ${palavra[1]}
+            </p>
+
+        </div>
+
+    `;
+
+
+    resultados.style.display = "grid";
+
+
+    resultados.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+});
+
+</script>
+
+</body>
+</html>
